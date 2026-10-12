@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="水墨风格讲解：从巨正则配分函数推出等温气压公式 p(z) = p(0)·exp(−βmgz)。">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>重力场中的理想气体</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;900&display=swap">
+<style>
+/* 布局：一幅竖轴长卷。单栏正文居中，气柱画作为卷首之后的主景，公式留白独行。 */
+:root {
+  --paper: #ecebe3;
+  --paper-deep: #e1dfd4;
+  --ink: #1b1c1a;
+  --ink-rgb: 27, 28, 26;
+  --ink-soft: #4c4e4a;
+  --ink-pale: #8b8d86;
+  --wash: rgba(27, 28, 26, .09);
+  --line: rgba(27, 28, 26, .22);
+  --cinnabar: #ad3324;
+  --cin-rgb: 173, 51, 36;
+  --seal-text: #f3ece0;
+  --brush: "Ma Shan Zheng", "STKaiti", "KaiTi", "Kaiti SC", serif;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --math: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141615; --paper-deep: #1c1f1d; --ink: #dddcd2; --ink-rgb: 221, 220, 210;
+    --ink-soft: #b1b1a7; --ink-pale: #7d7f78; --wash: rgba(221, 220, 210, .08);
+    --line: rgba(221, 220, 210, .24); --cinnabar: #d9583f; --cin-rgb: 217, 88, 63;
+    --seal-text: #1a1412; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141615; --paper-deep: #1c1f1d; --ink: #dddcd2; --ink-rgb: 221, 220, 210;
+  --ink-soft: #b1b1a7; --ink-pale: #7d7f78; --wash: rgba(221, 220, 210, .08);
+  --line: rgba(221, 220, 210, .24); --cinnabar: #d9583f; --cin-rgb: 217, 88, 63;
+  --seal-text: #1a1412; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background:
+    radial-gradient(ellipse 70% 38rem at 85% -6rem, var(--wash), transparent 70%),
+    radial-gradient(ellipse 50% 30rem at 0% 22rem, var(--wash), transparent 70%),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.95;
+}
+.scroll {
+  max-width: 46rem;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 40px);
+  padding-block: clamp(2rem, 7vw, 4.5rem) 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 8vw, 5rem);
+}
+section, header { display: flex; flex-direction: column; gap: 1.15rem; min-width: 0; }
+p { margin: 0; max-width: 36em; }
+i.m { font-family: var(--math); font-style: italic; font-size: 1.06em; white-space: nowrap; }
+i.m b { font-style: normal; font-weight: 400; }
+sub, sup { font-size: .68em; line-height: 0; }
+strong { font-weight: 600; }
+.red { color: var(--cinnabar); }
+
+/* 卷首 */
+.eyebrow { font-size: .82rem; letter-spacing: .32em; color: var(--ink-pale); }
+h1 {
+  font-family: var(--brush);
+  font-weight: 400;
+  font-size: clamp(2.7rem, 11vw, 5rem);
+  line-height: 1.12;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: .02em;
+}
+.lede { font-size: 1.06rem; color: var(--ink-soft); }
+.problem {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: 1.1rem;
+  display: flex; flex-direction: column; gap: .7rem;
+  color: var(--ink-soft);
+  font-size: .95rem;
+}
+.problem ol { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: .4rem; }
+
+/* 章节题签：朱印 + 行楷 */
+.head { display: flex; align-items: center; gap: .9rem; }
+.seal {
+  flex: none;
+  width: 2.5rem; height: 2.5rem;
+  display: grid; place-items: center;
+  background: var(--cinnabar);
+  color: var(--seal-text);
+  font-family: var(--brush);
+  font-size: 1.65rem; line-height: 1;
+  border-radius: 5px 3px 6px 3px;
+  transform: rotate(-3deg);
+}
+h2 {
+  font-family: var(--brush);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 6vw, 2.3rem);
+  line-height: 1.25;
+  margin: 0;
+  text-wrap: balance;
+}
+h3 { font-size: 1rem; font-weight: 600; margin: .4rem 0 0; letter-spacing: .08em; }
+
+/* 公式 */
+.eq {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .75rem;
+  margin-block: .2rem;
+}
+.eq .mm { overflow-x: auto; overflow-y: hidden; padding-block: .35rem; }
+.eq .no { font-size: .8rem; color: var(--ink-pale); font-variant-numeric: tabular-nums; }
+math { font-family: var(--math); font-size: 1.16em; }
+.final {
+  border: 2px solid var(--ink);
+  border-radius: 14px 5px 16px 6px / 6px 15px 5px 14px;
+  padding: .7rem 1rem;
+  background: var(--wash);
+}
+.final math { font-size: 1.3em; }
+
+/* 气柱画 */
+.figure { display: flex; flex-direction: column; gap: 1rem; }
+#column {
+  display: block;
+  width: 100%;
+  height: clamp(380px, 62vw, 500px);
+  border-bottom: 1px solid var(--line);
+}
+.controls { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: flex-end; }
+.ctl { display: flex; flex-direction: column; gap: .4rem; min-width: 0; }
+.ctl.grow { flex: 1 1 14rem; }
+.ctl-label { font-size: .8rem; letter-spacing: .18em; color: var(--ink-pale); }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chips button {
+  font: inherit; font-size: .92rem; line-height: 1.2;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .38rem .8rem;
+  cursor: pointer;
+}
+.chips button:hover { border-color: var(--ink); }
+.chips button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+input[type="range"] { width: 100%; accent-color: var(--cinnabar); margin: 0; height: 1.6rem; }
+.readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5rem 1.2rem;
+  margin: 0;
+}
+.readout div { display: flex; flex-direction: column; min-width: 0; }
+.readout dt { font-size: .78rem; color: var(--ink-pale); line-height: 1.5; }
+.readout dd { margin: 0; font-size: clamp(1.2rem, 4.6vw, 1.6rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.4; }
+.readout dd small { font-size: .6em; font-weight: 400; color: var(--ink-soft); }
+.note { font-size: .86rem; color: var(--ink-pale); }
+
+.diagram { max-width: 30rem; width: 100%; }
+.diagram svg { display: block; width: 100%; height: auto; }
+.diagram text { font-family: var(--serif); font-size: 12.5px; fill: var(--ink); }
+.diagram .it { font-family: var(--math); font-style: italic; font-size: 14px; }
+
+.steps { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: .5rem; max-width: 36em; }
+footer { font-size: .82rem; color: var(--ink-pale); border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<div class="scroll">
+
+<header>
+  <div class="eyebrow">统计力学 · 第六题 · 巨正则系综</div>
+  <h1>重力场中的<br>理想气体</h1>
+  <p class="lede">山越高，气越薄。这道题要你从配分函数出发，说清楚为什么气压随高度按指数衰减。</p>
+  <div class="problem">
+    <p>理想气体处于均匀重力场中。<i class="m">N</i> 个分子在高度 <i class="m">z</i> 处的势能为 <i class="m">Mgz</i>，其中 <i class="m">M = mN</i>。体系温度处处相同、无限大，并且局域平衡，所以可以对每个高度写局域配分函数。</p>
+    <ol>
+      <li>证明高度 <i class="m">z</i> 处、体积 <i class="m">V</i> 内的巨正则配分函数是式 (2.3.6)。</li>
+      <li>说明改变 <i class="m">z</i> 等价于改变化学势 <i class="m">μ</i>，并由此证明 <i class="m">p(z) = p(0)&thinsp;e<sup>−βmgz</sup></i>。</li>
+    </ol>
+  </div>
+</header>
+
+<section aria-labelledby="h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="h-fig">先看结论长什么样</h2></div>
+  <p>左边是一根等温气柱，每个墨点是一团分子；右边是同一高度轴上的气压曲线。换一种气体或者调温度，看墨色怎样变淡。</p>
+  <div class="figure">
+    <canvas id="column" role="img" aria-label="等温气柱中分子数密度与气压随高度指数衰减的示意图"></canvas>
+    <div class="controls">
+      <div class="ctl">
+        <span class="ctl-label" id="gas-label">气体</span>
+        <div class="chips" id="gases" role="group" aria-labelledby="gas-label"></div>
+      </div>
+      <div class="ctl grow">
+        <label class="ctl-label" for="temp">温度 <span id="temp-out" class="red">288 K</span></label>
+        <input type="range" id="temp" min="100" max="600" step="1" value="288">
+      </div>
+    </div>
+    <dl class="readout">
+      <div><dt>标高 <i class="m">H = kT/mg</i></dt><dd id="r-h">—</dd></div>
+      <div><dt>珠峰顶气压 <i class="m">p/p<sub>0</sub></i></dt><dd id="r-ev">—</dd></div>
+      <div><dt>气压减半的高度</dt><dd id="r-half">—</dd></div>
+    </dl>
+    <p class="note">每升高一个标高 <i class="m">H</i>，气压降到原来的 <i class="m">1/e</i>。分子越重、温度越低，<i class="m">H</i> 越小，气体越贴着地面。山形按 8.85 km 的珠峰高度绘制；真实大气并不等温，这里只画题目里的等温模型。</p>
+  </div>
+</section>
+
+<section aria-labelledby="h-1">
+  <div class="head"><span class="seal" aria-hidden="true">一</span><h2 id="h-1">高度 z 处的巨正则配分函数</h2></div>
+
+  <h3>哈密顿量多了一项</h3>
+  <p>取高度 <i class="m">z</i> 附近的一小块体积 <i class="m">V</i>。它足够小，里面每个分子的高度都可以当作 <i class="m">z</i>；又足够大，可以谈统计平均。这就是“局域平衡”的意思。于是 <i class="m">N</i> 个分子的哈密顿量只比 <i class="m">z = 0</i> 时多一个常数：</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>H</mi><mo>=</mo><msub><mi>H</mi><mn>0</mn></msub><mo>+</mo>
+    <munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover>
+    <mi>m</mi><mi>g</mi><msub><mi>z</mi><mi>i</mi></msub>
+    <mo>=</mo><msub><mi>H</mi><mn>0</mn></msub><mo>+</mo><mi>N</mi><mi>m</mi><mi>g</mi><mi>z</mi>
+    <mo>=</mo><msub><mi>H</mi><mn>0</mn></msub><mo>+</mo><mi>M</mi><mi>g</mi><mi>z</mi>
+  </math></div><span class="no"></span></div>
+
+  <h3>代入巨正则配分函数的定义</h3>
+  <p>巨正则配分函数是各粒子数的正则配分函数 <i class="m">Z<sub>N</sub></i> 按 <i class="m">e<sup>βμN</sup></i> 加权求和：</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>Q</mi><mo>=</mo>
+    <munderover><mo>∑</mo><mrow><mi>N</mi><mo>=</mo><mn>0</mn></mrow><mi>∞</mi></munderover>
+    <msup><mi>e</mi><mrow><mi>β</mi><mi>μ</mi><mi>N</mi></mrow></msup>
+    <msub><mi>Z</mi><mi>N</mi></msub>
+    <mo>,</mo><mspace width="1.2em"></mspace>
+    <msub><mi>Z</mi><mi>N</mi></msub><mo>=</mo>
+    <mfrac><mn>1</mn><mrow><msup><mi>h</mi><mrow><mn>3</mn><mi>N</mi></mrow></msup><mi>N</mi><mo>!</mo></mrow></mfrac>
+    <mo>∫</mo><mi mathvariant="normal">d</mi><mi mathvariant="normal">Γ</mi><mspace width=".25em"></mspace>
+    <msup><mi>e</mi><mrow><mo>−</mo><mi>β</mi><mi>H</mi></mrow></msup>
+  </math></div><span class="no"></span></div>
+  <p>其中 <i class="m">h<sup>3N</sup></i> 是相空间体积的量子单位，<i class="m">N!</i> 修正全同粒子的重复计数。把上面的 <i class="m">H</i> 代进去，就得到题目要的结果：</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>Q</mi><mo>(</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mo>,</mo><mi>T</mi><mo>,</mo><mi>z</mi><mo>)</mo><mo>=</mo>
+    <munderover><mo>∑</mo><mrow><mi>N</mi><mo>=</mo><mn>0</mn></mrow><mi>∞</mi></munderover>
+    <mfrac><msup><mi>e</mi><mrow><mi>β</mi><mi>μ</mi><mi>N</mi></mrow></msup><mrow><msup><mi>h</mi><mrow><mn>3</mn><mi>N</mi></mrow></msup><mi>N</mi><mo>!</mo></mrow></mfrac>
+    <mo>∫</mo><mi mathvariant="normal">d</mi><mi mathvariant="normal">Γ</mi><mspace width=".25em"></mspace>
+    <msup><mi>e</mi><mrow><mo>−</mo><mi>β</mi><mo>(</mo><msub><mi>H</mi><mn>0</mn></msub><mo>+</mo><mi>M</mi><mi>g</mi><mi>z</mi><mo>)</mo></mrow></msup>
+  </math></div><span class="no">(2.3.6)</span></div>
+</section>
+
+<section aria-labelledby="h-2">
+  <div class="head"><span class="seal" aria-hidden="true">二</span><h2 id="h-2">高度就是化学势的平移</h2></div>
+
+  <h3>把重力项提到积分外面</h3>
+  <p><i class="m">Mgz = Nmgz</i> 不依赖相空间坐标，可以直接提出积分。它和 <i class="m">e<sup>βμN</sup></i> 一样都是 <i class="m">N</i> 的指数，于是两者合并：</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>Q</mi><mo>(</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mo>,</mo><mi>T</mi><mo>,</mo><mi>z</mi><mo>)</mo><mo>=</mo>
+    <munderover><mo>∑</mo><mrow><mi>N</mi><mo>=</mo><mn>0</mn></mrow><mi>∞</mi></munderover>
+    <mfrac><msup><mi>e</mi><mrow><mi>β</mi><mo>(</mo><mi>μ</mi><mo>−</mo><mi>m</mi><mi>g</mi><mi>z</mi><mo>)</mo><mi>N</mi></mrow></msup><mrow><msup><mi>h</mi><mrow><mn>3</mn><mi>N</mi></mrow></msup><mi>N</mi><mo>!</mo></mrow></mfrac>
+    <mo>∫</mo><mi mathvariant="normal">d</mi><mi mathvariant="normal">Γ</mi><mspace width=".25em"></mspace>
+    <msup><mi>e</mi><mrow><mo>−</mo><mi>β</mi><msub><mi>H</mi><mn>0</mn></msub></mrow></msup>
+  </math></div><span class="no"></span></div>
+  <p>右边正是 <i class="m">z = 0</i> 处的配分函数，只是化学势换成了 <i class="m">μ − mgz</i>：</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>Q</mi><mo>(</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mo>,</mo><mi>T</mi><mo>,</mo><mi>z</mi><mo>)</mo><mo>=</mo>
+    <mi>Q</mi><mo>(</mo><mi>μ</mi><mo>−</mo><mi>m</mi><mi>g</mi><mi>z</mi><mo>,</mo><mspace width=".2em"></mspace><mi>V</mi><mo>,</mo><mi>T</mi><mo>,</mo><mspace width=".2em"></mspace><mn>0</mn><mo>)</mo>
+  </math></div><span class="no"></span></div>
+  <p>各高度的气体可以互相交换分子，平衡时 <i class="m">μ</i> 和 <i class="m">T</i> 处处相同。所以高度 <i class="m">z</i> 处的气体，和一团放在地面、化学势降低了 <i class="m">mgz</i> 的气体，在热力学上没有区别。<strong>升高 <i class="m">z</i> 等价于把化学势调低 <i class="m">mgz</i>。</strong></p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 360 200" role="img" aria-label="总化学势 μ 不随高度变化；有效化学势 μ 减 mgz 随高度线性下降，两者之差为 mgz">
+      <line x1="40" y1="16" x2="40" y2="176" stroke="var(--ink-pale)" stroke-width="1" fill="none"/>
+      <line x1="40" y1="176" x2="348" y2="176" stroke="var(--ink-pale)" stroke-width="1" fill="none"/>
+      <text x="344" y="193" text-anchor="end" class="it">z</text>
+      <text x="12" y="24">能量</text>
+      <line x1="40" y1="52" x2="340" y2="52" stroke="var(--cinnabar)" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M40 52 L340 158" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M40 52 L340 158 L340 52 Z" fill="var(--wash)" stroke="none"/>
+      <line x1="262" y1="58" x2="262" y2="124" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+      <text x="270" y="96" class="it">mgz</text>
+      <text x="48" y="40" style="fill:var(--cinnabar)"><tspan class="it" style="fill:var(--cinnabar)">μ</tspan>　各高度相同</text>
+      <text x="48" y="128"><tspan class="it">μ − mgz</tspan></text>
+      <text x="48" y="146">气体在高度 z 的有效化学势</text>
+    </svg>
+  </div>
+
+  <h3>用上理想气体的化学势</h3>
+  <p>对理想气体，<i class="m">z = 0</i> 处的积分可以算出来：动量积分给出热波长 <i class="m">Λ = h / √(2πmkT)</i>，坐标积分给出 <i class="m">V<sup>N</sup></i>。求和是一个指数级数：</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>Q</mi><mo>(</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mo>,</mo><mi>T</mi><mo>,</mo><mn>0</mn><mo>)</mo><mo>=</mo>
+    <munderover><mo>∑</mo><mrow><mi>N</mi><mo>=</mo><mn>0</mn></mrow><mi>∞</mi></munderover>
+    <mfrac><mn>1</mn><mrow><mi>N</mi><mo>!</mo></mrow></mfrac>
+    <msup><mrow><mo>(</mo><mfrac><mrow><msup><mi>e</mi><mrow><mi>β</mi><mi>μ</mi></mrow></msup><mi>V</mi></mrow><msup><mi mathvariant="normal">Λ</mi><mn>3</mn></msup></mfrac><mo>)</mo></mrow><mi>N</mi></msup>
+    <mo>=</mo><mi>exp</mi>
+    <mrow><mo>(</mo><mfrac><mrow><msup><mi>e</mi><mrow><mi>β</mi><mi>μ</mi></mrow></msup><mi>V</mi></mrow><msup><mi mathvariant="normal">Λ</mi><mn>3</mn></msup></mfrac><mo>)</mo></mrow>
+  </math></div><span class="no"></span></div>
+  <p>巨正则系综里 <i class="m">βpV = ln Q</i>，所以压强和化学势的关系是</p>
+  <div class="eq"><div class="mm"><math display="block">
+    <mi>p</mi><mo>=</mo><mfrac><mrow><mi>k</mi><mi>T</mi></mrow><msup><mi mathvariant="normal">Λ</mi><mn>3</mn></msup></mfrac>
+    <msup><mi>e</mi><mrow><mi>β</mi><mi>μ</mi></mrow></msup>
+    <mspace width="1.2em"></mspace><mo>⟺</mo><mspace width="1.2em"></mspace>
+    <mi>μ</mi><mo>=</mo><mi>k</mi><mi>T</mi><mspace width=".2em"></mspace><mi>ln</mi>
+    <mrow><mo>(</mo><mfrac><mrow><mi>p</mi><msup><mi mathvariant="normal">Λ</mi><mn>3</mn></msup></mrow><mrow><mi>k</mi><mi>T</mi></mrow></mfrac><mo>)</mo></mrow>
+  </math></div><span class="no"></span></div>
+  <p>这就是提示里说的理想气体化学势公式。压强正比于 <i class="m">e<sup>βμ</sup></i>，而温度不变时 <i class="m">Λ</i> 也不变。</p>
+
+  <h3>把 μ 换成 μ − mgz</h3>
+  <div class="eq final"><div class="mm"><math display="block">
+    <mi>p</mi><mo>(</mo><mi>z</mi><mo>)</mo><mo>=</mo>
+    <mfrac><mrow><mi>k</mi><mi>T</mi></mrow><msup><mi mathvariant="normal">Λ</mi><mn>3</mn></msup></mfrac>
+    <msup><mi>e</mi><mrow><mi>β</mi><mo>(</mo><mi>μ</mi><mo>−</mo><mi>m</mi><mi>g</mi><mi>z</mi><mo>)</mo></mrow></msup>
+    <mo>=</mo><mi>p</mi><mo>(</mo><mn>0</mn><mo>)</mo><mspace width=".2em"></mspace>
+    <msup><mi>e</mi><mrow><mo>−</mo><mi>β</mi><mi>m</mi><mi>g</mi><mi>z</mi></mrow></msup>
+  </math></div><span class="no">(2.3.7)</span></div>
+  <p>这就是气压公式。指数里的 <i class="m">βmgz = z / H</i>，其中 <i class="m">H = kT/mg</i> 就是上面图里的标高。</p>
+</section>
+
+<section aria-labelledby="h-3">
+  <div class="head"><span class="seal" aria-hidden="true">验</span><h2 id="h-3">两个检查</h2></div>
+  <ol class="steps">
+    <li><strong>流体静力学。</strong>对结果求导得 <i class="m">dp/dz = −βmg&thinsp;p</i>。理想气体的数密度 <i class="m">ρ = βp</i>，所以 <i class="m">dp/dz = −ρmg</i>，正好是一层气体托住它上方气体重量的条件。</li>
+    <li><strong>玻尔兹曼因子。</strong>密度 <i class="m">ρ(z) = ρ(0)&thinsp;e<sup>−βmgz</sup></i>，就是单个分子处在势能 <i class="m">mgz</i> 的玻尔兹曼权重。统计力学的两条路给出同一个答案。</li>
+  </ol>
+  <p>答题时的骨架只有三步：重力只给哈密顿量加常数 <i class="m">Nmgz</i>；这个常数并进 <i class="m">e<sup>βμN</sup></i>，等效为 <i class="m">μ → μ − mgz</i>；理想气体 <i class="m">p ∝ e<sup>βμ</sup></i>，于是 <i class="m">p</i> 随高度指数衰减。</p>
+</section>
+
+<footer>图中常数：<i class="m">k</i> = 1.380649×10<sup>−23</sup> J/K，<i class="m">g</i> = 9.81 m/s²，原子质量单位 1.66054×10<sup>−27</sup> kg。</footer>
+
+</div>
+
+<script>
+(function () {
+  var K = 1.380649e-23, U = 1.66054e-27, G = 9.81, ZMAX = 30, EVEREST = 8.85;
+  var GASES = [
+    { id: 'h2', label: 'H₂', m: 2.016 }, { id: 'he', label: 'He', m: 4.003 },
+    { id: 'n2', label: 'N₂', m: 28.01 }, { id: 'o2', label: 'O₂', m: 32.0 },
+    { id: 'co2', label: 'CO₂', m: 44.01 }, { id: 'xe', label: 'Xe', m: 131.3 }
+  ];
+  var state = { gas: GASES[2], T: 288 };
+  var canvas = document.getElementById('column'), ctx = canvas.getContext('2d');
+  var tempEl = document.getElementById('temp'), tempOut = document.getElementById('temp-out');
+  var chips = document.getElementById('gases');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 0, Hpx = 0, col = {};
+
+  // 固定随机序列，重绘时山形与墨点不跳动
+  var seed = 20261012;
+  function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+
+  var dots = [];
+  for (var i = 0; i < 1700; i++) {
+    dots.push({ fx: rnd(), z: rnd() * ZMAX, thr: rnd(), r: 0.7 + rnd() * rnd() * 2.6,
+      a: 0, op: 0.35 + rnd() * 0.6, w: 0.3 + rnd() * 0.7, ph: rnd() * 6.283 });
+  }
+
+  function ridge(n, peakKm, centre, width, phases) {
+    var f = [1.3, 2.7, 5.1, 9.3], a = [1, 0.5, 0.25, 0.12], out = [], max = 0;
+    for (var i = 0; i <= n; i++) {
+      var x = i / n, h = 0;
+      for (var k = 0; k < 4; k++) h += a[k] * (1 - Math.abs(Math.sin(Math.PI * (f[k] * x + phases[k]))));
+      h *= 0.4 + 0.6 * Math.exp(-Math.pow((x - centre) / width, 2));
+      out.push(h); if (h > max) max = h;
+    }
+    for (i = 0; i <= n; i++) out[i] = out[i] / max * peakKm;
+    return out;
+  }
+  var layers = [
+    { h: ridge(120, EVEREST, 0.62, 0.22, [0.31, 0.77, 0.12, 0.5]), top: 0.30 },
+    { h: ridge(120, 5.6, 0.25, 0.3, [0.9, 0.2, 0.6, 0.1]), top: 0.42 },
+    { h: ridge(120, 3.2, 0.8, 0.35, [0.55, 0.4, 0.85, 0.3]), top: 0.6 }
+  ];
+
+  function scaleHeightKm() { return K * state.T / (state.gas.m * U * G) / 1000; }
+  function fmt(x) { return x >= 100 ? x.toFixed(0) : x >= 10 ? x.toFixed(1) : x.toFixed(2); }
+
+  function readColors() {
+    var s = getComputedStyle(document.documentElement);
+    col.ink = s.getPropertyValue('--ink-rgb').trim();
+    col.cin = s.getPropertyValue('--cin-rgb').trim();
+  }
+  function ink(a) { return 'rgba(' + col.ink + ',' + a + ')'; }
+  function cin(a) { return 'rgba(' + col.cin + ',' + a + ')'; }
+
+  function resize() {
+    var r = canvas.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+    W = r.width; Hpx = r.height;
+    canvas.width = Math.round(W * d); canvas.height = Math.round(Hpx * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+    readColors();
+    if (reduce) draw(0);
+  }
+
+  function draw(t) {
+    if (!W) return;
+    var top = 16, bot = 30, left = 36, right = 10, gap = 22;
+    var ph = Hpx - top - bot, inner = W - left - right - gap;
+    var lw = inner * 0.6, rx = left + lw + gap, rw = inner - lw;
+    var Hs = scaleHeightKm();
+    function y(z) { return top + ph * (1 - z / ZMAX); }
+    ctx.clearRect(0, 0, W, Hpx);
+    ctx.font = '12px "Noto Serif SC", "Songti SC", serif';
+    ctx.textBaseline = 'middle';
+
+    // 高度轴
+    ctx.strokeStyle = ink(0.3); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(left - 6, top); ctx.lineTo(left - 6, top + ph); ctx.stroke();
+    ctx.fillStyle = ink(0.6); ctx.textAlign = 'right';
+    for (var zt = 0; zt <= ZMAX; zt += 10) {
+      ctx.beginPath(); ctx.moveTo(left - 10, y(zt)); ctx.lineTo(left - 6, y(zt)); ctx.stroke();
+      ctx.fillText(String(zt), left - 13, y(zt));
+    }
+    ctx.textAlign = 'left'; ctx.fillText('高度 z / km', left, top + ph + 17);
+
+    // 远山三重
+    for (var L = 0; L < layers.length; L++) {
+      var hs = layers[L].h, n = hs.length - 1, peak = 0;
+      for (var q = 0; q <= n; q++) if (hs[q] > peak) peak = hs[q];
+      var g = ctx.createLinearGradient(0, y(peak), 0, y(0));
+      g.addColorStop(0, ink(layers[L].top)); g.addColorStop(1, ink(0.02));
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.moveTo(left, y(0));
+      for (q = 0; q <= n; q++) ctx.lineTo(left + lw * q / n, y(hs[q]));
+      ctx.lineTo(left + lw, y(0)); ctx.closePath(); ctx.fill();
+    }
+    var far = layers[0].h, pi = 0;
+    for (q = 0; q < far.length; q++) if (far[q] > far[pi]) pi = q;
+    var px = left + lw * pi / (far.length - 1);
+    ctx.fillStyle = cin(1); ctx.beginPath(); ctx.arc(px, y(EVEREST), 2.5, 0, 6.283); ctx.fill();
+    ctx.textAlign = px > left + lw * 0.6 ? 'right' : 'left';
+    ctx.fillText('珠峰 8.85 km', px + (ctx.textAlign === 'right' ? -7 : 7), y(EVEREST) - 9);
+
+    // 墨点：地面密度固定，按 exp(-z/H) 取舍
+    ctx.fillStyle = 'rgb(' + col.ink + ')';
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i], target = d.thr < Math.exp(-d.z / Hs) ? 1 : 0;
+      d.a = reduce ? target : d.a + (target - d.a) * 0.1;
+      if (d.a < 0.02) continue;
+      var dx = reduce ? 0 : Math.sin(t * 0.0006 * d.w + d.ph) * 4;
+      var dy = reduce ? 0 : Math.cos(t * 0.0005 * d.w + d.ph * 1.7) * 4;
+      var yy = y(d.z) + dy;
+      if (yy > top + ph - 1) yy = top + ph - 1;
+      ctx.globalAlpha = d.a * d.op * 0.75;
+      ctx.beginPath(); ctx.arc(left + d.r + d.fx * (lw - 2 * d.r) + dx, yy, d.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // 气压曲线
+    ctx.strokeStyle = ink(0.3); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(rx, top); ctx.lineTo(rx, top + ph); ctx.lineTo(rx + rw, top + ph); ctx.stroke();
+    ctx.fillStyle = ink(0.6); ctx.textAlign = 'left'; ctx.fillText('0', rx, top + ph + 17);
+    ctx.textAlign = 'right'; ctx.fillText('1', rx + rw, top + ph + 17);
+    ctx.textAlign = 'center'; ctx.fillText('p / p₀', rx + rw / 2, top + ph + 17);
+
+    ctx.beginPath(); ctx.moveTo(rx, y(0));
+    for (var s = 0; s <= 100; s++) { var z = ZMAX * s / 100; ctx.lineTo(rx + rw * Math.exp(-z / Hs), y(z)); }
+    ctx.lineTo(rx, y(ZMAX)); ctx.closePath(); ctx.fillStyle = ink(0.08); ctx.fill();
+    ctx.beginPath();
+    for (s = 0; s <= 100; s++) {
+      z = ZMAX * s / 100;
+      var cx = rx + rw * Math.exp(-z / Hs);
+      if (s === 0) ctx.moveTo(cx, y(z)); else ctx.lineTo(cx, y(z));
+    }
+    ctx.strokeStyle = ink(0.92); ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+
+    // 标高线
+    if (Hs < ZMAX - 1) {
+      var yh = y(Hs);
+      ctx.strokeStyle = cin(0.75); ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(left, yh); ctx.lineTo(rx + rw, yh); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = cin(1);
+      ctx.beginPath(); ctx.arc(rx + rw / Math.E, yh, 4, 0, 6.283); ctx.fill();
+      ctx.textAlign = 'right';
+      ctx.fillText('z = H，p = p₀/e', rx + rw, yh - 11);
+    } else {
+      ctx.fillStyle = cin(1); ctx.textAlign = 'right';
+      ctx.fillText('H 超出画幅', rx + rw, top + 8);
+    }
+  }
+
+  function update() {
+    var Hs = scaleHeightKm();
+    tempOut.textContent = state.T + ' K';
+    document.getElementById('r-h').innerHTML = fmt(Hs) + ' <small>km</small>';
+    document.getElementById('r-ev').textContent = Math.exp(-EVEREST / Hs).toFixed(2);
+    document.getElementById('r-half').innerHTML = fmt(Hs * Math.LN2) + ' <small>km</small>';
+    var bs = chips.querySelectorAll('button');
+    for (var i = 0; i < bs.length; i++) bs[i].setAttribute('aria-pressed', bs[i].dataset.id === state.gas.id ? 'true' : 'false');
+    if (reduce) draw(0);
+  }
+
+  GASES.forEach(function (gas) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = 'gas-' + gas.id; b.dataset.id = gas.id; b.textContent = gas.label;
+    b.addEventListener('click', function () { state.gas = gas; update(); });
+    chips.appendChild(b);
+  });
+  tempEl.addEventListener('input', function () { state.T = +tempEl.value; update(); });
+  state.T = +tempEl.value;
+
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas); else window.addEventListener('resize', resize);
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    if (mq.addEventListener) mq.addEventListener('change', resize);
+  }
+  new MutationObserver(resize).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (reduce) draw(0); });
+
+  resize(); update();
+  if (!reduce) (function loop(t) { draw(t || 0); requestAnimationFrame(loop); })(0);
+})();
+</script>
+</body>
+</html>

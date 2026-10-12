@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="统计力学可视化专题库：按主题分类，收录可独立打开的讲解网页。">
+<title>Statistical Mechanics · 统计力学专题库</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --paper: #ecebe3; --ink: #1b1c1a; --ink-soft: #4c4e4a; --ink-pale: #8b8d86;
+  --wash: rgba(27, 28, 26, .09); --line: rgba(27, 28, 26, .22);
+  --cinnabar: #ad3324; --seal-text: #f3ece0;
+  --brush: "Ma Shan Zheng", "STKaiti", "KaiTi", "Kaiti SC", serif;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141615; --ink: #dddcd2; --ink-soft: #b1b1a7; --ink-pale: #7d7f78;
+    --wash: rgba(221, 220, 210, .08); --line: rgba(221, 220, 210, .24);
+    --cinnabar: #d9583f; --seal-text: #1a1412; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse 70% 38rem at 85% -6rem, var(--wash), transparent 70%), var(--paper);
+  color: var(--ink);
+  font: 17px/1.9 var(--serif);
+}
+.scroll {
+  max-width: 46rem; margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 40px);
+  padding-block: clamp(2rem, 7vw, 4.5rem) 5rem;
+  display: flex; flex-direction: column; gap: clamp(2.5rem, 7vw, 4rem);
+}
+header, section { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.eyebrow { font-size: .82rem; letter-spacing: .32em; color: var(--ink-pale); }
+h1 { font-family: var(--brush); font-weight: 400; font-size: clamp(2.7rem, 11vw, 4.6rem); line-height: 1.12; margin: 0; }
+p { margin: 0; max-width: 36em; }
+.lede { color: var(--ink-soft); }
+.head { display: flex; align-items: center; gap: .9rem; border-bottom: 1px solid var(--line); padding-bottom: .8rem; }
+.seal {
+  flex: none; width: 2.3rem; height: 2.3rem; display: grid; place-items: center;
+  background: var(--cinnabar); color: var(--seal-text);
+  font-family: var(--brush); font-size: 1.5rem; line-height: 1;
+  border-radius: 5px 3px 6px 3px; transform: rotate(-3deg);
+}
+h2 { font-family: var(--brush); font-weight: 400; font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.25; margin: 0; }
+.topics { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.topics li { display: flex; flex-direction: column; gap: .3rem; padding-block: 1.1rem; border-bottom: 1px solid var(--line); }
+.topics a.title { color: var(--ink); font-size: 1.25rem; font-weight: 600; text-decoration: none; }
+.topics a.title:hover { color: var(--cinnabar); }
+.topics p { color: var(--ink-soft); font-size: .95rem; }
+.meta { font-size: .82rem; color: var(--ink-pale); }
+.meta a { color: var(--cinnabar); }
+a:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+footer { font-size: .82rem; color: var(--ink-pale); }
+</style>
+</head>
+<body>
+<div class="scroll">
+  <header>
+    <div class="eyebrow">STATISTICAL MECHANICS</div>
+    <h1>统计力学专题库</h1>
+    <p class="lede">每个专题是一张可以独立打开的讲解网页：一道题或一个概念，配上推导和可以动手调的图。</p>
+  </header>
+
+  <section aria-labelledby="g-ensemble">
+    <div class="head"><span class="seal" aria-hidden="true">综</span><h2 id="g-ensemble">系综与配分函数</h2></div>
+    <ul class="topics">
+      <li>
+        <a class="title" href="topics/gravity-ideal-gas/index.html">重力场中的理想气体</a>
+        <p>从巨正则配分函数出发，说明升高 z 等价于把化学势调低 mgz，推出气压公式 p(z) = p(0)·e<sup>−βmgz</sup>。附可换气体、调温度的气柱图。</p>
+        <span class="meta">水墨风格 · 需联网加载字体 · <a href="topics/gravity-ideal-gas/README.md">说明</a></span>
+      </li>
+    </ul>
+  </section>
+
+  <footer>目前收录 1 个专题。</footer>
+</div>
+</body>
+</html>
