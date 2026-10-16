@@ -1,6 +1,6 @@
 # Statistical Mechanics
 
-统计力学可视化专题库。结构与 [pde-visualization](https://github.com/Uugyfgyb/pde-visualization) 相同：根目录的 [专题目录](index.html)负责分类和导航，每个专题放在 `topics/<slug>/` 下，专题的 `index.html` 是可独立打开的单文件网页。
+统计力学可视化专题库。结构与 [pde-visualization](https://github.com/FelixJiashengFu/pde-visualization) 相同：根目录的 [专题目录](index.html)负责分类和导航，每个专题放在 `topics/<slug>/` 下，专题的 `index.html` 是可独立打开的单文件网页。
 
 ## 专题
 
