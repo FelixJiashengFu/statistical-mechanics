@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>熵、第二定律与自由能 · 测验讲解</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --paper: #ecebe3; --ink: #1b1c1a; --ink-soft: #4c4e4a; --ink-pale: #8b8d86;
+  --wash: rgba(27, 28, 26, .09); --line: rgba(27, 28, 26, .22);
+  --cinnabar: #ad3324; --seal-text: #f3ece0;
+  --brush: "Ma Shan Zheng", "STKaiti", "KaiTi", "Kaiti SC", serif;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141615; --ink: #dddcd2; --ink-soft: #b1b1a7; --ink-pale: #7d7f78;
+    --wash: rgba(221, 220, 210, .08); --line: rgba(221, 220, 210, .24);
+    --cinnabar: #d9583f; --seal-text: #1a1412; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse 70% 38rem at 85% -6rem, var(--wash), transparent 70%), var(--paper);
+  color: var(--ink);
+  font: 17px/1.9 var(--serif);
+}
+.scroll {
+  max-width: 46rem; margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 40px);
+  padding-block: clamp(2rem, 7vw, 4.5rem) 5rem;
+  display: flex; flex-direction: column; gap: clamp(2.5rem, 7vw, 4rem);
+}
+header, section { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.eyebrow { font-size: .82rem; letter-spacing: .32em; color: var(--ink-pale); }
+h1 { font-family: var(--brush); font-weight: 400; font-size: clamp(2.7rem, 11vw, 4.6rem); line-height: 1.12; margin: 0; }
+p { margin: 0; max-width: 36em; }
+.lede { color: var(--ink-soft); }
+.head { display: flex; align-items: center; gap: .9rem; border-bottom: 1px solid var(--line); padding-bottom: .8rem; }
+.seal {
+  flex: none; width: 2.3rem; height: 2.3rem; display: grid; place-items: center;
+  background: var(--cinnabar); color: var(--seal-text);
+  font-family: var(--brush); font-size: 1.5rem; line-height: 1;
+  border-radius: 5px 3px 6px 3px; transform: rotate(-3deg);
+}
+h2 { font-family: var(--brush); font-weight: 400; font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.25; margin: 0; }
+.topics { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.topics li { display: flex; flex-direction: column; gap: .3rem; padding-block: 1.1rem; border-bottom: 1px solid var(--line); }
+.topics a.title { color: var(--ink); font-size: 1.25rem; font-weight: 600; text-decoration: none; }
+.topics a.title:hover { color: var(--cinnabar); }
+.topics p { color: var(--ink-soft); font-size: .95rem; }
+.meta { font-size: .82rem; color: var(--ink-pale); }
+.meta a { color: var(--cinnabar); }
+a:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+footer { font-size: .82rem; color: var(--ink-pale); }
+.topics a.title::after { content: ' ↗'; font-size: .8em; color: var(--ink-pale); }
+.back { font-size: .9rem; } .back a { color: var(--cinnabar); }
+</style>
+</head>
+<body>
+<div class="scroll">
+  <header>
+    <div class="back"><a href="../../index.html">← 专题目录</a></div>
+    <div class="eyebrow">ENTROPY · 2ND & 3RD LAW</div>
+    <h1>熵、第二定律与自由能</h1>
+    <p class="lede">熵的两套测验：一套选择题，一套判断题。判断题有中文版和英文版两份讲义，内容对应同一测验，按阅读习惯任选一份。</p>
+  </header>
+  <section aria-labelledby="files">
+    <div class="head"><span class="seal" aria-hidden="true">熵</span><h2 id="files">讲义</h2></div>
+    <ul class="topics">
+      <li>
+        <a class="title" href="%E7%83%AD%E5%8A%9B%E5%AD%A6%C2%B7%E7%86%B5%C2%B726%E9%A2%98%E8%AE%B2%E8%A7%A3%E7%89%88.pdf">熵 · 选择题 26 题讲解版</a>
+        <p>来源测验 3 Quiz multiple choice Entropy。从熵的定义、第三定律与残余熵、相变熵，到自由能判据、制冷机/热泵 COP、麦克斯韦–玻尔兹曼分布，逐题拆解概念与陷阱。</p>
+        <span class="meta">PDF · 29 页 · 2026-10</span>
+      </li>
+      <li>
+        <a class="title" href="%E7%83%AD%E5%8A%9B%E5%AD%A6_26%E9%81%93%E5%88%A4%E6%96%AD%E9%A2%98%E8%AF%A6%E8%A7%A3_%E4%B8%AD%E6%96%87.pdf">26 道判断题详解（中文）</a>
+        <p>来源测验 3 Quiz yes/no entropy：熵、自发性、热机与热力学势。每题给出答案、推导、所需假设和考试提醒；第 3、7、13、15、16、21、26 题需细读。</p>
+        <span class="meta">PDF · 29 页 · 2026-10-28</span>
+      </li>
+      <li>
+        <a class="title" href="thermodynamics_26_explained.pdf">26 Yes/No Questions Explained（英文）</a>
+        <p>与上一份是同一测验的英文版讲义，关键术语附中文注释。</p>
+        <span class="meta">PDF · 29 页 · 2026-10-28</span>
+      </li>
+    </ul>
+  </section>
+  <footer>本目录收录 3 份 PDF · <a href="README.md" style="color:inherit">说明</a></footer>
+</div>
+</body>
+</html>
