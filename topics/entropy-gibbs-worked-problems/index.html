@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>熵、第三定律与吉布斯能 · 习题精讲</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --paper: #ecebe3; --ink: #1b1c1a; --ink-soft: #4c4e4a; --ink-pale: #8b8d86;
+  --wash: rgba(27, 28, 26, .09); --line: rgba(27, 28, 26, .22);
+  --cinnabar: #ad3324; --seal-text: #f3ece0;
+  --brush: "Ma Shan Zheng", "STKaiti", "KaiTi", "Kaiti SC", serif;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141615; --ink: #dddcd2; --ink-soft: #b1b1a7; --ink-pale: #7d7f78;
+    --wash: rgba(221, 220, 210, .08); --line: rgba(221, 220, 210, .24);
+    --cinnabar: #d9583f; --seal-text: #1a1412; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse 70% 38rem at 85% -6rem, var(--wash), transparent 70%), var(--paper);
+  color: var(--ink);
+  font: 17px/1.9 var(--serif);
+}
+.scroll {
+  max-width: 46rem; margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 40px);
+  padding-block: clamp(2rem, 7vw, 4.5rem) 5rem;
+  display: flex; flex-direction: column; gap: clamp(2.5rem, 7vw, 4rem);
+}
+header, section { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.eyebrow { font-size: .82rem; letter-spacing: .32em; color: var(--ink-pale); }
+h1 { font-family: var(--brush); font-weight: 400; font-size: clamp(2.7rem, 11vw, 4.6rem); line-height: 1.12; margin: 0; }
+p { margin: 0; max-width: 36em; }
+.lede { color: var(--ink-soft); }
+.head { display: flex; align-items: center; gap: .9rem; border-bottom: 1px solid var(--line); padding-bottom: .8rem; }
+.seal {
+  flex: none; width: 2.3rem; height: 2.3rem; display: grid; place-items: center;
+  background: var(--cinnabar); color: var(--seal-text);
+  font-family: var(--brush); font-size: 1.5rem; line-height: 1;
+  border-radius: 5px 3px 6px 3px; transform: rotate(-3deg);
+}
+h2 { font-family: var(--brush); font-weight: 400; font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.25; margin: 0; }
+.topics { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.topics li { display: flex; flex-direction: column; gap: .3rem; padding-block: 1.1rem; border-bottom: 1px solid var(--line); }
+.topics a.title { color: var(--ink); font-size: 1.25rem; font-weight: 600; text-decoration: none; }
+.topics a.title:hover { color: var(--cinnabar); }
+.topics p { color: var(--ink-soft); font-size: .95rem; }
+.meta { font-size: .82rem; color: var(--ink-pale); }
+.meta a { color: var(--cinnabar); }
+a:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+footer { font-size: .82rem; color: var(--ink-pale); }
+.topics a.title::after { content: ' ↗'; font-size: .8em; color: var(--ink-pale); }
+.back { font-size: .9rem; } .back a { color: var(--cinnabar); }
+</style>
+</head>
+<body>
+<div class="scroll">
+  <header>
+    <div class="back"><a href="../../index.html">← 专题目录</a></div>
+    <div class="eyebrow">CHMB23 · ENTROPY · THIRD LAW · GIBBS ENERGY</div>
+    <h1>熵、第三定律与吉布斯能</h1>
+    <p class="lede">四道经典习题，中英双语分步讲解，符号约定采用 Atkins（w = 外界对体系做的功）。</p>
+  </header>
+  <section aria-labelledby="files">
+    <div class="head"><span class="seal" aria-hidden="true">熵</span><h2 id="files">讲义</h2></div>
+    <ul class="topics">
+      <li>
+        <a class="title" href="%E7%86%B5_%E7%AC%AC%E4%B8%89%E5%AE%9A%E5%BE%8B%E4%B8%8E%E5%90%89%E5%B8%83%E6%96%AF%E8%83%BD_%E4%B8%AD%E8%8B%B1%E7%B2%BE%E8%AE%B2_2026-11-05.pdf">熵、第三定律与吉布斯能 · 中英精讲</a>
+        <p>① 理想气体等温膨胀：可逆与不可逆两条路径的 q、w、ΔU、ΔH、ΔS、ΔS<sub>surr</sub>、ΔS<sub>tot</sub>；② 从冰到过热水蒸气的熵变（五段可逆路径）；③ 液态汞的第三定律标准摩尔熵 S<sub>m</sub><sup>⊖</sup>(298 K)；④ 理想气体等温膨胀的 ΔG。</p>
+        <span class="meta">PDF · 14 页 · 2026-11-05</span>
+      </li>
+    </ul>
+  </section>
+  <footer>本目录收录 1 份 PDF · <a href="README.md" style="color:inherit">说明</a></footer>
+</div>
+</body>
+</html>
